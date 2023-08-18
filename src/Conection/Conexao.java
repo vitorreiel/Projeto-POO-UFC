@@ -1,6 +1,6 @@
 package Conection;
 
-import java.sql.Connection ;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,20 +20,22 @@ public Conexao () {    }
     public static Connection con = null;
 
     public static Connection getConnection() {
-    System.out.println("Conectando ao banco...");
-    try {
-    Class.forName("com.mysql.jdbc.Driver");
-    con =  DriverManager.getConnection("jdbc:mysql://localhost/concessionaria","root","");
-    System.out.println("Conectado.");
-    return con;
+        System.out.println("Conectando ao banco...");
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con =  DriverManager.getConnection("jdbc:mysql://localhost/concessionaria","root","");
+            System.out.println("Conectado.");
+            return con;
     } 
+        
     catch (ClassNotFoundException ex) {
-	System.out.println("Classe não encontrada, adicione o driver nas bibliotecas.");
+	System.out.println("Classe nao encontrada, adicione o driver nas bibliotecas.");
 	Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
 	} catch(SQLException e) {
-		System.out.println(e);
-		throw new RuntimeException(e);
+            System.out.println(e);
+            throw new RuntimeException(e);
 	}
+    
     return con;
 
 }
@@ -60,7 +62,7 @@ public Conexao () {    }
 				stmt.close();
 			if (conn != null)
 				conn.close();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			throw new Exception(e.getMessage());
 		}
 	}  

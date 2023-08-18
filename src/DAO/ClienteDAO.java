@@ -53,8 +53,7 @@ public class ClienteDAO {
            System.out.println("Erro: "+ ex);
            
        }finally{
-               Conexao.closeConnection(con, stmt);
-           
+            Conexao.closeConnection(con, stmt);
        }
     }
 
@@ -64,37 +63,36 @@ public class ClienteDAO {
      * @throws java.sql.SQLException 
      */
     public List<cliente> listar() throws SQLException, Exception{
-    //  Connection con = Conexao.getConnection();
-      PreparedStatement stmt = null;
-      ResultSet rs=null;
-      
-      List<cliente> clientes;
-         clientes = new ArrayList<>();
-    try{
-         String sql="SELECT * FROM cliente";
-      stmt=con.prepareStatement(sql);
-      rs=stmt.executeQuery();
-       while(rs.next()){
-           cliente c= new cliente();
-        c.setCod(rs.getInt("Cod"));
-        c.setCNH(rs.getString("CNH"));
-        c.setPrimeiro_Nome(rs.getString("Primeiro_Nome"));
-        c.setSegundo_Nome(rs.getString("Segundo_Nome"));
-        c.setUltimo_Nome(rs.getString("Ultimo_Nome"));
-        c.setCidade(rs.getString("Cidade"));
-        c.setEstado(rs.getString("Estado"));
-        c.setRG(rs.getString("RG"));
-        c.setCPF(rs.getString("CPF"));
-        c.setSenha(rs.getString("Login"));
-        clientes.add(c);
+        PreparedStatement stmt = null;
+        ResultSet rs=null;
+
+        List<cliente> clientes;
+            clientes = new ArrayList<>();
+        try{
+            String sql="SELECT * FROM cliente";
+            stmt=con.prepareStatement(sql);
+            rs=stmt.executeQuery();
+            while(rs.next()){
+                cliente c= new cliente();
+                c.setCod(rs.getInt("Cod"));
+                c.setCNH(rs.getString("CNH"));
+                c.setPrimeiro_Nome(rs.getString("Primeiro_Nome"));
+                c.setSegundo_Nome(rs.getString("Segundo_Nome"));
+                c.setUltimo_Nome(rs.getString("Ultimo_Nome"));
+                c.setCidade(rs.getString("Cidade"));
+                c.setEstado(rs.getString("Estado"));
+                c.setRG(rs.getString("RG"));
+                c.setCPF(rs.getString("CPF"));
+                c.setSenha(rs.getString("Login"));
+                clientes.add(c);
+            }
+            return clientes;
+        } catch(SQLException e){
+            System.out.println(e);
+            return null;
+        } finally {
+            Conexao.closeConnection(con,stmt,rs);
         }
-        return clientes;
-    }catch(Exception e){
-        System.out.println(e);
-        return null;
-    }finally{
-        Conexao.closeConnection(con,stmt,rs);
-    }
     }
     
     public void deletar(cliente c) throws SQLException, Exception{
@@ -104,7 +102,7 @@ public class ClienteDAO {
         stmt=con.prepareStatement("DELETE FROM cliente WHERE Cod=?");
         stmt.setInt(1, c.getCod());
         stmt.executeUpdate();
-        }catch(Exception e){
+        }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "erro"+e);
         }finally{
         Conexao.closeConnection(con, stmt);
